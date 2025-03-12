@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="invoices.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -14,19 +14,6 @@
 
 <body>
     <div class="dashboard-container">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <img src="assets/Dunbrae-Subic.png" alt="Dunbrae-Subic.png">
-            <nav>
-                <ul>
-                    <li><button class="active sidebar-button"><i class="fa-solid fa-house"></i> Dashboard</button></li>
-                    <li><button class="sidebar-button"><i class="fa-solid fa-file-invoice"></i> Invoices</button></li>
-                </ul>
-                <div class="logout-container">
-                    <button class="logout"><i class="fa-solid fa-sign-out-alt"></i> Logout</button>
-                </div>
-            </nav>
-        </aside>
 
 
         <main class="content">
@@ -57,9 +44,32 @@
                             <p>Edit Invoice</p>
                         </div>
 
+                        <!-- Buttons -->
                         <div class="form-button">
-                            <button class="add-edit">Add Invoice</button>
+                            <button class="add-edit" onclick="openModal()">Add Invoice</button>
                             <button class="save">Save Changes</button>
+                        </div>
+
+                        <!-- MODAL STRUCTURE -->
+                        <div id="invoiceModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close" onclick="closeModal()">&times;</span>
+                                <h2 id="modal-title">Add Invoice</h2>
+
+                                <!-- Form for Adding Invoice and Target -->
+                                <div class="modal-form">
+                                    <div class="input-container">
+                                        <label id="modal-label" for="modal-input">Enter Invoice Amount</label>
+                                        <input type="number" id="modal-input" required>
+                                    </div>
+                                </div>
+
+                                <div class="modal-buttons">
+                                    <button onclick="switchForm('invoice')">Add Invoice</button>
+                                    <button onclick="switchForm('target')">Add Target</button>
+                                    <button class="save" onclick="saveChanges()">Save Changes</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="actual-form">
                             <div class="input-group">
@@ -67,19 +77,19 @@
                                     <label for="edit-invoiced-week">Edit Invoiced</label>
                                     <input type="number" id="edit-invoiced-week" placeholder="" required>
                                 </div>
-                        
+
                                 <div class="input-container">
                                     <label for="edit-target-week">Edit Target</label>
                                     <input type="number" id="edit-target-week" placeholder="" required>
                                 </div>
                             </div>
-                        
+
                             <div class="data">
                                 <div class="week-invoice">
                                     <p>Week Invoiced</p>
                                     <h1>$421,213,9732</h1>
                                 </div>
-                        
+
                                 <div class="week-target">
                                     <p>Week Target</p>
                                     <h1>$421,213,9732</h1>
@@ -97,57 +107,9 @@
                 </div>
             </section>
 
-            <section class="charts">
-                <div class="invoicing-card">
-                    <!-- Form -->
-                    <div class="form">
-                        <div class="form-title">
-                            <p>Edit Invoice</p>
-                        </div>
-
-                        <div class="form-button">
-                            <button class="add-edit">Add Invoice</button>
-                            <button class="save">Save Changes</button>
-                        </div>
-                        <div class="actual-form">
-                            <div class="input-group">
-                                <div class="input-container">
-                                    <label for="edit-invoiced-week">Edit Invoiced</label>
-                                    <input type="number" id="edit-invoiced-week" placeholder="" required>
-                                </div>
-                        
-                                <div class="input-container">
-                                    <label for="edit-target-week">Edit Target</label>
-                                    <input type="number" id="edit-target-week" placeholder="" required>
-                                </div>
-                            </div>
-                        
-                            <div class="data">
-                                <div class="week-invoice">
-                                    <p>Week Invoiced</p>
-                                    <h1>$421,213,9732</h1>
-                                </div>
-                        
-                                <div class="week-target">
-                                    <p>Week Target</p>
-                                    <h1>$421,213,9732</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="circle-graph">
-                    <div class="chart-title">
-                        <p>Sales Distribution</p>
-                    </div>
-                    <canvas id="salesChart" width="360" height="150"></canvas>
-                </div>
-            </section>
-
-            
     </div>
     <script src="script.js"></script>
+    <script src="invoices.js"></script>
     <script src="currenttime.js"></script>
     <script src="fetchdata.js"></script>
     <script src="graphs.js"></script>

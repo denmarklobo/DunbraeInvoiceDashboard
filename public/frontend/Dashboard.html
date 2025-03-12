@@ -8,24 +8,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
     <div class="dashboard-container">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <img src="assets/Dunbrae-Subic.png" alt="Dunbrae-Subic.png">
-            <nav>
-                <ul>
-                    <li><button class="active sidebar-button"><i class="fa-solid fa-house"></i> Dashboard</button></li>
-                    <li><button class="sidebar-button"><i class="fa-solid fa-file-invoice"></i> Invoices</button></li>
-                </ul>
-                <div class="logout-container">
-                    <button class="logout"><i class="fa-solid fa-sign-out-alt"></i> Logout</button>
-                </div>
-            </nav>
-        </aside>
 
 
         <main class="content">
@@ -92,7 +80,7 @@
 
             <section class="recent-activities">
                 <div class="activities">
-                    <p class="title">Monthly Revenue</p>
+                    <p class="title">Recent Activities</p>
                     <table>
                         <thead>
                             <tr>
@@ -144,6 +132,12 @@
     <script src="currenttime.js"></script>
     <script src="fetchdata.js"></script>
     <script src="graphs.js"></script>
+    <script>
+        function initializeGraphs() {
+            // Reinitialize your charts here (e.g., Chart.js, ApexCharts, etc.)
+            console.log("Charts are reinitialized");
+        }
+    </script>
 </body>
 
 </html>
