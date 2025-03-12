@@ -15,6 +15,8 @@ Route::prefix('v1')->middleware('api')->group(function () {
 
     // YEARLY INVOICES
     Route::post('yearly-invoices/sum', [YearlyInvoiceController::class, 'sumAmount']);
+    Route::get('yearly-latest', [YearlyInvoiceController::class, 'getLatestYearTotal']);
+    Route::get('yearly-target', [YearlyInvoiceController::class, 'getLatestYearTarget']);
     Route::post('yearly-invoices', [YearlyInvoiceController::class, 'store']);
     Route::get('yearly-invoices', [YearlyInvoiceController::class, 'index']);
     Route::get('yearly-invoices/{id}', [YearlyInvoiceController::class, 'show']);
@@ -23,6 +25,8 @@ Route::prefix('v1')->middleware('api')->group(function () {
 
     // MONTHLY INVOICES
     Route::post('monthly-invoices/sum', [MonthlyInvoiceController::class, 'sumAmount']);
+    Route::get('monthly-latest', [MonthlyInvoiceController::class, 'getLatestMonthTotal']);
+    Route::get('monthly-target', [MonthlyInvoiceController::class, 'getLatestMonthTarget']);
     Route::post('monthly-invoices', [MonthlyInvoiceController::class, 'store']);
     Route::get('monthly-invoices', [MonthlyInvoiceController::class, 'index']);
     Route::get('monthly-invoices/{id}', [MonthlyInvoiceController::class, 'show']);
@@ -31,6 +35,8 @@ Route::prefix('v1')->middleware('api')->group(function () {
 
     // WEEKLY INVOICES
     Route::post('weekly-invoices/sum', [WeeklyInvoiceController::class, 'sumAmount']);
+    Route::get('weekly-latest', [WeeklyInvoiceController::class, 'getLatestWeekTotal']);
+    Route::get('weekly-target', [WeeklyInvoiceController::class, 'getLatestWeekTarget']);
     Route::get('weekly-invoices', [WeeklyInvoiceController::class, 'index']);
     Route::post('weekly-invoices', [WeeklyInvoiceController::class, 'store']);
     Route::get('weekly-invoices/{id}', [WeeklyInvoiceController::class, 'show']);

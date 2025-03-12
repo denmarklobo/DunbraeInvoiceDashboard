@@ -26,6 +26,38 @@ class MonthlyInvoiceController extends Controller
         return response()->json($invoice, 201);
     }
 
+        public function getLatestMonthTotal()
+    {
+        // Get the most recent monthly invoice (latest record based on created_at)
+        $latestInvoice = MonthlyInvoice::latest('created_at')->first();
+
+        // If no invoice is found, return an error message
+        if (!$latestInvoice) {
+            return response()->json(['message' => 'No monthly invoices found'], 404);
+        }
+
+        // Return the latest month_total
+        return response()->json([
+            'latest_month_total' => $latestInvoice->month_total,
+        ]);
+    }
+
+        public function getLatestMonthTarget()
+    {
+        // Get the most recent monthly invoice (latest record based on created_at)
+        $latestInvoice = MonthlyInvoice::latest('created_at')->first();
+
+        // If no invoice is found, return an error message
+        if (!$latestInvoice) {
+            return response()->json(['message' => 'No monthly invoices found'], 404);
+        }
+
+        // Return the latest month_target
+        return response()->json([
+            'latest_month_target' => $latestInvoice->month_target,
+        ]);
+    }
+
     // Sum the month_total for the most recent monthly invoice
     public function sumAmount(Request $request)
     {

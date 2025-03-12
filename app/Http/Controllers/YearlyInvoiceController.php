@@ -7,6 +7,38 @@ use Illuminate\Http\Request;
 
 class YearlyInvoiceController extends Controller
 {
+
+        public function getLatestYearTotal()
+    {
+        // Get the most recent yearly invoice (latest record based on created_at)
+        $latestInvoice = YearlyInvoice::latest('created_at')->first();
+
+        // If no invoice is found, return an error message
+        if (!$latestInvoice) {
+            return response()->json(['message' => 'No yearly invoices found'], 404);
+        }
+
+        // Return the latest year_total
+        return response()->json([
+            'latest_year_total' => $latestInvoice->year_total,
+        ]);
+    }
+
+        public function getLatestYearTarget()
+    {
+        // Get the most recent yearly invoice (latest record based on created_at)
+        $latestInvoice = YearlyInvoice::latest('created_at')->first();
+
+        // If no invoice is found, return an error message
+        if (!$latestInvoice) {
+            return response()->json(['message' => 'No yearly invoices found'], 404);
+        }
+
+        // Return the latest year_target
+        return response()->json([
+            'latest_year_target' => $latestInvoice->year_target,
+        ]);
+    }
     // Function to sum year_total for the most recent yearly invoice
     public function sumAmount(Request $request)
     {

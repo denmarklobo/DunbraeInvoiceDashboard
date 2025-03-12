@@ -18,6 +18,39 @@ class WeeklyInvoiceController extends Controller
         return response()->json($weeklyInvoices);
     }
 
+        public function getLatestWeekTotal()
+    {
+        // Get the most recent weekly invoice (latest record based on created_at)
+        $latestInvoice = WeeklyInvoice::latest('created_at')->first();
+
+        // If no invoice is found, return an error message
+        if (!$latestInvoice) {
+            return response()->json(['message' => 'No weekly invoices found'], 404);
+        }
+
+        // Return the latest week_total
+        return response()->json([
+            'latest_week_total' => $latestInvoice->week_total,
+        ]);
+    }
+    
+        public function getLatestWeekTarget()
+    {
+        // Get the most recent weekly invoice (latest record based on created_at)
+        $latestInvoice = WeeklyInvoice::latest('created_at')->first();
+
+        // If no invoice is found, return an error message
+        if (!$latestInvoice) {
+            return response()->json(['message' => 'No weekly invoices found'], 404);
+        }
+
+        // Return the latest week_target
+        return response()->json([
+            'latest_week_target' => $latestInvoice->week_target,
+        ]);
+    }
+    
+
     /**
      * Store a newly created weekly invoice in storage.
      *
