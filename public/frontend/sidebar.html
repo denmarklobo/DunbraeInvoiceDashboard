@@ -1,1 +1,38 @@
-    
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <img src="assets/Dunbrae-Subic.png" alt="Dunbrae-Subic.png">
+            <nav>
+                <ul>
+                    <li><button id="dashboardBtn" class="active sidebar-button"><i class="fa-solid fa-house"></i>
+                            Dashboard</button></li>
+                    <li><button id="invoicesBtn" class="sidebar-button"><i class="fa-solid fa-file-invoice"></i>
+                            Invoices</button></li>
+                </ul>
+                <div class="logout-container">
+                    <button class="logout"><i class="fa-solid fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="content" id="content-area"></main>
+    </div>
+    <script src="sidebar.js"></script>
+</body>
+
+</html>
