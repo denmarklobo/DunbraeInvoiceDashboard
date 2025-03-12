@@ -1,32 +1,34 @@
 function openModal() {
-    document.getElementById('invoiceModal').style.display = "flex";
+    document.getElementById("invoiceModal").style.display = "flex";
 }
 
 function closeModal() {
-    document.getElementById('invoiceModal').style.display = "none";
-}
-
-function switchForm(type) {
-    const title = document.getElementById('modal-title');
-    const label = document.getElementById('modal-label');
-    
-    if (type === 'invoice') {
-        title.innerText = "Add Invoice";
-        label.innerText = "Enter Invoice Amount";
-    } else if (type === 'target') {
-        title.innerText = "Add Target";
-        label.innerText = "Enter Target Amount";
-    }
+    document.getElementById("invoiceModal").style.display = "none";
 }
 
 function saveChanges() {
-    alert("Invoice/Target added successfully!");
-    closeModal();
+    const invoiceAmount = document.getElementById("invoice-input").value;
+    const targetAmount = document.getElementById("target-input").value;
+    let message = "";
+
+    if (!invoiceAmount && !targetAmount) {
+        message = "Please enter both Invoice and Target amounts!";
+    } else {
+        message = `Invoice: ${invoiceAmount || "Not entered"}\nTarget: ${targetAmount || "Not entered"}`;
+    }
+
+    alert(message);
+    if (invoiceAmount || targetAmount) closeModal();
 }
 
 // Close modal if user clicks outside the content
+function closeModal() {
+    document.getElementById("invoiceModal").style.display = "none";
+}
+
+// Close modal when clicking outside
 window.onclick = function(event) {
-    const modal = document.getElementById('invoiceModal');
+    const modal = document.getElementById("invoiceModal");
     if (event.target === modal) {
         closeModal();
     }
