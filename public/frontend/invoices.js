@@ -1,11 +1,10 @@
-function openModal() {
-    document.getElementById("invoiceModal").style.display = "flex";
+function openModal(index) {
+    document.querySelectorAll(".modal")[index].style.display = "flex";
 }
 
-function closeModal() {
-    document.getElementById("invoiceModal").style.display = "none";
+function closeModal(index) {
+    document.querySelectorAll(".modal")[index].style.display = "none";
 }
-
 function saveChanges() {
     const invoiceAmount = document.getElementById("invoice-input").value;
     const targetAmount = document.getElementById("target-input").value;
