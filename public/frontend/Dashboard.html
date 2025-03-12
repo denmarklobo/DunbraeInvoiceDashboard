@@ -1,0 +1,134 @@
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="dashboard-container">
+            <main class="content">
+                <!-- NAVBAR -->
+                <header class="header">
+                    <div class="with-currenttime">
+                        <h1>Dashboard</h1>
+                        <div id="current-time"></div>
+                    </div>
+                    <div class="profile">
+                        <div class="user-profile-image">
+                            <img src="assets/Profile-icon.png" alt="">
+                        </div>
+                        <div class="user-profile-info">
+                            <p class="user-name">Ryan Joshua Bueno</p>
+                            <p class="position">IT Intern</p>
+                        </div>
+                        </p>
+                    </div>
+                </header>
+
+
+                <!-- Upper Box -->
+                <section class="stats">
+                    <div class="card">
+                        <div class="line1 inside-card">
+                            <p class="card-title">Total Revenue</p>
+                            <p>$200,000</p>
+                        </div>
+                        <div class="line inside-card">
+                            <p class="card-title">Today’s Revenue</p>
+                            <p>$200,000</p>
+                        </div>
+                        <div class="line inside-card">
+                            <p class="card-title">Total Invoices</p>
+                            <p>$200,000</p>
+                        </div>
+                        <div class="line inside-card">
+                            <p class="card-title">Today’s Invoices</p>
+                            <p>$200,000</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Middle Box -->
+                <section class="charts">
+                    <div class="bar-chart">
+                        <div class="chart-title">
+                            <p>Monthly Revenue</p>
+                            <p class="graph-card-title">$200,000</p>
+                        </div>
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+
+                    <div class="circle-graph">
+                        <div class="chart-title">
+                            <p>Sales Distribution</p>
+                        </div>
+                        <canvas id="salesChart" width="360" height="150"></canvas>
+                    </div>
+                </section>
+
+
+
+                <section class="recent-activities">
+                    <div class="activities">
+                        <p class="title">Monthly Revenue</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Action</th>
+                                    <th>Date Updated</th>
+                                    <th>Amount</th>
+                                    <th class="status">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Dm Joshua Lobo</td>
+                                    <td>Updated Monthly Invoice</td>
+                                    <td>March 10, 2025 | 8:06 AM</td>
+                                    <td>$20,000.00</td>
+                                    <td>
+                                        <p class="success">Success</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Dm Joshua Lobo</td>
+                                    <td>Updated Monthly Invoice</td>
+                                    <td>March 10, 2025 | 8:06 AM</td>
+                                    <td>$20,000.00</td>
+                                    <td>
+                                        <p class="success">Success</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Dm Joshua Lobo</td>
+                                    <td>Updated Monthly Invoice</td>
+                                    <td>March 10, 2025 | 8:06 AM</td>
+                                    <td>$20,000.00</td>
+                                    <td>
+                                        <p class="success">Success</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+        <script src="script.js"></script>
+        <script src="currenttime.js"></script>
+        <script src="fetchdata.js"></script>
+        <script src="graphs.js"></script>
+    </body>
+
+    </html>

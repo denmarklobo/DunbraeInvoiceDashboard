@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Target</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="display.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="content">
+            <h3>MTD Invoiced <span class="highlight">March 2025</span></h3>
+            <p class="overview">As of 10 March 2025</p>
+
+            <hr>
+            <br>
+            
+            <div class="stats">
+                <div class="stat">
+                    <p>Amount Invoiced</p>
+                    <h2 class="amount">$541,935</h2>
+                </div>
+            </div>
+
+            <div class="bar-chart-container">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="progressChart"></canvas>
+            <p class="week-text">March <br> <span class="report">Report</span></p>
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="footer">
+        <img src="assets/Dunbrae-Subic.png" alt="">
+        <span class="year">Year 2025</span>
+    </div>
+    <hr class="footer-line">
+
+    <script src="monthly.js"></script>
+</body>
+</html>
