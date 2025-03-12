@@ -161,7 +161,7 @@ nav button.sidebar-button:hover {
     margin: 0;
 }
 
-/* Bar Graphs and Pie Graphs */
+/* and invoicing form Pie Graphs */
 .charts {
     display: flex;
     gap: 20px;
@@ -169,27 +169,115 @@ nav button.sidebar-button:hover {
     height: auto;
 }
 
-.bar-chart {
+.invoicing-card {
     flex: 2;
     background: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     height: 300px;
+    display: flex;
+    gap: 20px;
 }
 
-.bar-chart p {
-    font-size: 12px;
+.form{
+    display: block;
+    width: 50%;
+}
+.form,.data .form-title{
+    font-size: 16px;
     font-weight: bold;
-    color: #636465;
-    margin: 0;
-}
-
-.chart-title .graph-card-title {
-    font-size: 30px;
-    margin: 0;
     color: #193F75;
+}
+
+.form-button{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.add-edit,
+.save{
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+}
+
+.add-edit{
+    background: #193F75;
+}
+
+.save{
+    background: #418655;
+}
+.actual-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.actual-form label{
+    color: #193F75;
+    font-size: 16px;
     font-weight: bold;
+}
+
+.actual-form input{
+    border: 1px solid #193F75;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.data {
+    display: flex;
+    justify-content: space-between; /* Push each data block under its corresponding input */
+    margin-top: 10px; /* Adds space between inputs and data */
+}
+.week-invoice  p{
+    font-size: 16px;
+    font-weight: bold;
+}
+.week-invoice  h1{
+    font-size: 34px;
+    color: #193F75;
+}
+.week-target  h1{
+    font-size: 34px;
+    color: #193F75;
+}
+.week-invoice p,h1{
+    margin: 0;
+}
+.week-target p,h1{
+    margin: 0;
+}
+
+.input-container input {
+    border: 1px solid #193F75;
+    padding: 10px;
+    width: 100%;
+}
+
+.input-container label {
+    color: #193F75;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.actual-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    display: flex;
+    gap: 80px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.input-group .input-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .circle-graph {
@@ -224,67 +312,3 @@ canvas {
 #salesChart {
     height: 150px;
 }
-
-/* Recent Activities */
-.recent-activities {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    font-size: 12px;
-}
-
-.activities {
-    padding: 20px;
-}
-
-.title {
-    font-size: 12px;
-    font-weight: bold;
-    color: #636465;
-    margin: 0;
-    margin-bottom: 10px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    overflow: hidden;
-    border-radius: 5px;
-}
-
-thead {
-    background-color: #193F75;
-    color: #fff;
-}
-
-thead .status {
-    text-align: center;
-}
-
-thead tr:hover {
-    background-color: #193F75;
-}
-
-th,
-td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
-
-tr:hover {
-    background-color: #ddd;
-}
-
-.success {
-    background-color: green;
-    text-align: center;
-    color: #fff;
-    padding: 5px 0;
-    border-radius: 3px;
-}
-

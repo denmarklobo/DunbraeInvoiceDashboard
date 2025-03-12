@@ -2,8 +2,6 @@
 <html lang="en">
 
 <head>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
@@ -11,10 +9,6 @@
     <link rel="stylesheet" href="adminlogin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Add CSRF Token meta tag -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
 </head>
 
 <body>
@@ -22,16 +16,16 @@
         <div class="login-form">
             <h2>Please Login</h2>
             <p class="subtitle">Admin Panel</p>
-            
-            <form id="admin-login-form">
+
+            <form>
                 <div class="input-group">
                     <label for="email">Company Email</label>
-                    <input type="email" id="email" name="email" placeholder="Please Enter Your Company Email" required />
+                    <input type="email" id="email" placeholder="Please Enter Your Company Email" required />
                 </div>
 
                 <div class="input-group password-field">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Please Enter Your Password" required />
+                    <input type="password" id="password" placeholder="Please Enter Your Password" required />
                     <span class="toggle-password" style="top: 30px;" onclick="togglePassword()">
                         <i class="fa-solid fa-eye" id="toggleIcon"></i>
                     </span>
@@ -48,4 +42,6 @@
     </div>
 
     <script src="adminpassword.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+
+</html>
