@@ -18,15 +18,22 @@ new Chart(ctx, {
         }
     }
 });
+
 document.addEventListener("DOMContentLoaded", function() {
     var ctx = document.getElementById('barChart').getContext('2d');
+
+    // Generate years dynamically (2020 - 2025)
+    const startYear = 2020;
+    const endYear = 2025;
+    const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => (startYear + i).toString());
+
     var barChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: Array.from({length: 32}, (_, i) => `${i + 1}`),
+            labels: years, // Update labels to years
             datasets: [{
-                label: 'Total Invoice for week',
-                data: Array.from({length: 32}, () => Math.floor(Math.random() * 50000) + 10000),
+                label: 'Total Invoice for Year',
+                data: Array.from({ length: years.length }, () => Math.floor(Math.random() * 50000) + 10000),
                 backgroundColor: '#193F75'
             }]
         },
@@ -53,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
-
 
 // Set fiscal year format
 document.addEventListener("DOMContentLoaded", function() {

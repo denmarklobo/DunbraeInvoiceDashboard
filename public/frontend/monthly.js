@@ -18,15 +18,23 @@ new Chart(ctx, {
         }
     }
 });
+
 document.addEventListener("DOMContentLoaded", function() {
     var ctx = document.getElementById('barChart').getContext('2d');
+    
+    // Define fiscal year months (July to June)
+    const fiscalMonths = [
+        "July", "August", "September", "October", "November", "December",
+        "January", "February", "March", "April", "May", "June"
+    ];
+
     var barChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: Array.from({length: 32}, (_, i) => `${i + 1}`),
+            labels: fiscalMonths, // Update labels to months
             datasets: [{
-                label: 'Total Invoice for week',
-                data: Array.from({length: 32}, () => Math.floor(Math.random() * 50000) + 10000),
+                label: 'Total Invoice for Fiscal Year',
+                data: Array.from({length: 12}, () => Math.floor(Math.random() * 50000) + 10000),
                 backgroundColor: '#193F75'
             }]
         },
