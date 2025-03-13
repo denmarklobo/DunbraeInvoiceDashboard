@@ -37,12 +37,7 @@ Route::middleware('api')->prefix('v1')->get('/data', function () {
     Route::put('weekly-invoices/{id}', [WeeklyInvoiceController::class, 'update']);
     Route::delete('weekly-invoices/{id}', [WeeklyInvoiceController::class, 'destroy']);
 
-    // Show the form to upload Excel file
-    Route::get('import-excel', [ExcelImportController::class, 'showForm']);
-
-    // Handle the import and calculate the total
-    Route::post('import-excel', [ExcelImportController::class, 'importExcelAndSum']);
-
+    //USER LOGIN
     Route::apiResource('userlogin', UserLoginController::class);
     Route::post('admin/login', [UserLoginController::class, 'adminLogin']);
     Route::post('userlogin/login', [UserLoginController::class, 'login']);

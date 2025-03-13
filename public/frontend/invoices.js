@@ -106,37 +106,39 @@ function saveSum() {
 }
 
 // CHART
-
 function createDoughnutChart(weekTotal, weekTarget) {
     const ctx = document.getElementById('salesChart').getContext('2d');
-    console.log('Creating chart with data:', weekTotal, weekTarget); // Log data to confirm function is called
+    console.log('Creating chart with data:', weekTotal, weekTarget);
 
     if (window.salesChart instanceof Chart) {
         window.salesChart.destroy();
     }
 
+    // Calculate remaining target amount
+    const remaining = Math.max(weekTarget - weekTotal, 0); // Ensure no negative values
+
     window.salesChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Week Total', 'Week Target'],
+            labels: ['Achieved', 'Remaining'],
             datasets: [{
-                label: 'Sales Distribution',
-                data: [weekTotal, weekTarget],
-                backgroundColor: ['#FF5733', '#33FF57'],
-                borderColor: ['#FFFFFF', '#FFFFFF'],
-                borderWidth: 1
+                label: '', // Remove the label
+                data: [weekTotal, remaining],
+                backgroundColor: ['#ffffff', '#193F75'], // White for progress, blue for remaining
+                borderWidth: 0 // Remove the border
             }]
         },
         options: {
             responsive: true,
+            cutout: '65%', // Creates a semi-donut effect
             plugins: {
                 legend: {
-                    position: 'top',
+                    display: false, // Hide the legend
                 },
                 tooltip: {
                     callbacks: {
                         label: function(tooltipItem) {
-                            return '$' + tooltipItem.raw.toFixed(2);
+                            return '$' + tooltipItem.raw.toLocaleString();
                         }
                     }
                 }
@@ -144,6 +146,7 @@ function createDoughnutChart(weekTotal, weekTarget) {
         }
     });
 }
+
 // Fetch data from API and update the chart
 function fetchDataAndUpdateChart() {
     // Make Axios GET requests to both API endpoints
