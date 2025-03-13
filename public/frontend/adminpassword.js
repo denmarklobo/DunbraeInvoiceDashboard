@@ -30,6 +30,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = response.data;
 
             if (data.message === 'Login successful') {
+                // Save user info to localStorage
+                localStorage.setItem("username", data.user.name);
+                localStorage.setItem("user_position", data.user.position);
                 // Save login status to sessionStorage
                 sessionStorage.setItem("isLoggedIn", "true");
 

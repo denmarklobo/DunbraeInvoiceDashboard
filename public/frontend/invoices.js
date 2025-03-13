@@ -1,34 +1,171 @@
-function openModal(index) {
-    document.querySelectorAll(".modal")[index].style.display = "flex";
+function openModal() {
+    document.getElementById("invoiceModal").style.display = "flex";
+    // Focus on the invoice input field
+    document.getElementById("add-invoice-input").focus();
 }
 
-function closeModal(index) {
-    document.querySelectorAll(".modal")[index].style.display = "none";
-}
-function saveChanges() {
-    const invoiceAmount = document.getElementById("invoice-input").value;
-    const targetAmount = document.getElementById("target-input").value;
-    let message = "";
-
-    if (!invoiceAmount && !targetAmount) {
-        message = "Please enter both Invoice and Target amounts!";
-    } else {
-        message = `Invoice: ${invoiceAmount || "Not entered"}\nTarget: ${targetAmount || "Not entered"}`;
-    }
-
-    alert(message);
-    if (invoiceAmount || targetAmount) closeModal();
-}
-
-// Close modal if user clicks outside the content
 function closeModal() {
     document.getElementById("invoiceModal").style.display = "none";
 }
 
-// Close modal when clicking outside
+// Close modal if user clicks outside the content
 window.onclick = function(event) {
     const modal = document.getElementById("invoiceModal");
     if (event.target === modal) {
         closeModal();
     }
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Fetch data once the DOM is loaded
+    fetchInvoiceAndTargetData();
+
+    // Attach the saveWeek function to the Save Changes button
+    document.querySelector('.save').addEventListener('click', saveWeek);
+});
+
+function fetchInvoiceAndTargetData() {
+    // Fetch Weekly Latest Data (e.g., invoice data)
+    axios.get('http://127.0.0.1:8000/api/v1/weekly-latest')
+        .then(response => {
+            console.log('Weekly Latest Data:', response.data);
+            const formattedTotal = Number(response.data.latest_week_total).toLocaleString();
+            document.getElementById('week-invoice-value').innerText = `$${formattedTotal}`;
+        })
+        .catch(error => {
+            console.error('Error fetching weekly latest data:', error);
+        });
+
+    // Fetch Weekly Target Data
+    axios.get('http://127.0.0.1:8000/api/v1/weekly-target')
+        .then(response => {
+            console.log('Weekly Target Data:', response.data);
+            const formattedTarget = Number(response.data.latest_week_target).toLocaleString();
+            document.getElementById('week-target-value').innerText = `$${formattedTarget}`;
+        })
+        .catch(error => {
+            console.error('Error fetching weekly target data:', error);
+        });
+}
+
+    function saveWeek() {
+        const invoiceAmount = document.getElementById('invoice-input').value;
+        const targetAmount = document.getElementById('target-input').value;
+
+        console.log('Invoice Amount:', invoiceAmount);  // Add this line
+        console.log('Target Amount:', targetAmount);    // Add this line
+
+        const data = {
+            week_total: invoiceAmount,
+            week_target: targetAmount
+        };
+
+        // Send POST request using Axios
+        axios.post('http://127.0.0.1:8000/api/v1/weekly-invoices', data)
+        .then(response => {
+            console.log('Invoice added successfully:', response.data);
+            closeModal();
+        })
+        .catch(error => {
+            console.error('Error adding invoice:', error.response.data);
+            if (error.response.data.errors) {
+                alert('Error: ' + Object.values(error.response.data.errors).flat().join(', '));
+            }
+        });  
+    }
+
+function saveSum() {
+    const invoiceAmount = document.getElementById('add-invoice-input').value;
+
+    if (!invoiceAmount) {
+            alert("Invoice amount is required.");
+            return;
+    }
+
+    const data = {
+        week_total: parseFloat(invoiceAmount) // Ensure it's a number
+    };
+
+    console.log('Sending data:', data);  // Debugging log to check request payload
+
+    axios.post('http://127.0.0.1:8000/api/v1/weekly-invoices/sum', data, {
+        headers: {
+            'Content-Type': 'application/json'  
+        }
+    })
+    .then(response => {
+        console.log('Invoice updated successfully:', response.data);
+        closeModal();
+    })
+    .catch(error => {
+        console.error('Error updating invoice:', error.response);
+        if (error.response && error.response.data.errors) {
+            alert('Error: ' + Object.values(error.response.data.errors).flat().join(', '));
+        }
+    });  
+}
+
+// CHART
+
+function createDoughnutChart(weekTotal, weekTarget) {
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    console.log('Creating chart with data:', weekTotal, weekTarget); // Log data to confirm function is called
+
+    if (window.salesChart instanceof Chart) {
+        window.salesChart.destroy();
+    }
+
+    window.salesChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Week Total', 'Week Target'],
+            datasets: [{
+                label: 'Sales Distribution',
+                data: [weekTotal, weekTarget],
+                backgroundColor: ['#FF5733', '#33FF57'],
+                borderColor: ['#FFFFFF', '#FFFFFF'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return '$' + tooltipItem.raw.toFixed(2);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+// Fetch data from API and update the chart
+function fetchDataAndUpdateChart() {
+    // Make Axios GET requests to both API endpoints
+    axios.get('http://127.0.0.1:8000/api/v1/weekly-latest')
+    .then(response => {
+        const weekTotal = parseFloat(response.data.latest_week_total) || 0; // Extract the value correctly
+        console.log('Week Total:', weekTotal); // Log the week total
+
+        return axios.get('http://127.0.0.1:8000/api/v1/weekly-target')
+            .then(response => {
+                const weekTarget = parseFloat(response.data.latest_week_target) || 0; // Extract the value correctly
+                console.log('Week Target:', weekTarget); // Log the week target
+                createDoughnutChart(weekTotal, weekTarget);
+            });
+    })
+    .catch(error => {
+        console.error('There was an error fetching the data:', error);
+        createDoughnutChart(0, 0); // Fallback to 0 values
+    });
+}
+
+// Initial fetch and chart creation on page load
+document.addEventListener('DOMContentLoaded', function() {
+    fetchDataAndUpdateChart();
+});

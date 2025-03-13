@@ -34,7 +34,7 @@ Route::prefix('v1')->middleware('api')->group(function () {
     Route::delete('monthly-invoices/{id}', [MonthlyInvoiceController::class, 'destroy']);
 
     // WEEKLY INVOICES
-    Route::post('weekly-invoices/sum', [WeeklyInvoiceController::class, 'sumAmount']);
+    Route::post('weekly-invoices/sum', [WeeklyInvoiceController::class, 'sumWeekTotal']);
     Route::get('weekly-latest', [WeeklyInvoiceController::class, 'getLatestWeekTotal']);
     Route::get('weekly-target', [WeeklyInvoiceController::class, 'getLatestWeekTarget']);
     Route::get('weekly-invoices', [WeeklyInvoiceController::class, 'index']);

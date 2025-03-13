@@ -4,6 +4,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const invoicesBtn = document.getElementById("invoicesBtn");
     const logoutBtn = document.querySelector(".logout");
 
+    const username = localStorage.getItem("username");
+    const position = localStorage.getItem("user_position");
+
+    // Display user details at the top of the dashboard
+    if (username && position) {
+        document.getElementById("display-name").textContent = username;
+        document.getElementById("display-position").textContent = position;
+    }
+
     // Function to load pages dynamically and execute scripts
     function loadPage(page) {
         fetch(page)

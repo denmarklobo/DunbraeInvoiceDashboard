@@ -58,33 +58,33 @@ class WeeklyInvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function sumAmount(Request $request)
+     public function sumWeekTotal(Request $request)
      {
-         // Validate the incoming request for month_total
+         // Validate the incoming request for week_total
          $request->validate([
-             'month_total' => 'required|numeric',
+             'week_total' => 'required|numeric',
          ]);
- 
-         // Get the most recent monthly invoice (latest record based on created_at)
-         $latestInvoice = MonthlyInvoice::latest('created_at')->first();
- 
-         // If there is no invoice, return an error message
+     
+         // Get the most recent weekly invoice (latest record based on created_at)
+         $latestInvoice = WeeklyInvoice::latest('created_at')->first();
+     
+         // If no invoice is found, return an error message
          if (!$latestInvoice) {
-             return response()->json(['message' => 'No invoices found'], 404);
+             return response()->json(['message' => 'No weekly invoices found'], 404);
          }
- 
-         // Sum the month_total input with the latest invoice's month_total
-         $newMonthTotal = $latestInvoice->month_total + $request->month_total;
- 
+     
+         // Sum the week_total input with the latest invoice's week_total
+         $newWeekTotal = $latestInvoice->week_total + $request->week_total;
+     
          // Update the latest invoice with the new summed amount
          $latestInvoice->update([
-             'month_total' => $newMonthTotal
+             'week_total' => $newWeekTotal
          ]);
- 
+     
          // Return the updated invoice data along with a success message
          return response()->json([
-             'message' => 'Month total updated successfully',
-             'new_month_total' => $newMonthTotal,
+             'message' => 'Week total updated successfully',
+             'new_week_total' => $newWeekTotal,
              'invoice' => $latestInvoice // Optionally include the updated invoice
          ]);
      }
