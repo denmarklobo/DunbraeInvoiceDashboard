@@ -2,12 +2,37 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\UserLoginController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\WeeklyInvoiceController;
 use App\Http\Controllers\MonthlyInvoiceController;
 use App\Http\Controllers\YearlyInvoiceController;
+use App\Http\Controllers\HomeController; // Add this line
+
+
+// Custom route for email verification
+Route::get('verify/{token}', [UserLoginController::class, 'verifyEmail'])->name('verifyEmail');
+
+// Ensure the user is authenticated and their email is verified
+Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
+
+// ✅ FIXED: Ensure Mail facade is used correctly
+Route::get('/send-test-email', function () {
+    Mail::raw('This is a test email.', function ($message) {
+        $message->to('ryanentrolezo@gmail.com')  // Change this to the recipient's email
+                ->subject('Test Email from Laravel');
+    });
+
+    return response()->json(['message' => 'Test email sent!']);
+});
+
+Route::get('/admin/verify/{token}', [UserLoginController::class, 'verifyEmail'])->name('admin.verify');
+
+Route::post('/admin/login', [UserLoginController::class, 'adminLogin']);
+Route::post('/admin/resend-verification', [UserLoginController::class, 'sendVerificationEmail']);
+Route::get('/admin/verify-email/{token}', [UserLoginController::class, 'verifyEmail']);
 
 Route::prefix('v1')->middleware('api')->group(function () {
     // Admin Login Route
