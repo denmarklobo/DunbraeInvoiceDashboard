@@ -21,8 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchInvoiceAndTargetData();
 
     // Attach the saveWeek function to the Save Changes button
-    document.querySelector('.save').addEventListener('click', saveWeek);
+    // Ensure that your button has the class 'save-week' in the HTML
+    document.querySelector('.save-week').addEventListener('click', saveWeek);
 });
+
 
 function fetchInvoiceAndTargetData() {
     // Fetch Weekly Latest Data (e.g., invoice data)
@@ -30,7 +32,7 @@ function fetchInvoiceAndTargetData() {
         .then(response => {
             console.log('Weekly Latest Data:', response.data);
             const formattedTotal = Number(response.data.latest_week_total).toLocaleString();
-            document.getElementById('week-invoice-value').innerText = `$${formattedTotal}`;
+            document.getElementById('week-invoice').innerText = `$${formattedTotal}`;
         })
         .catch(error => {
             console.error('Error fetching weekly latest data:', error);
@@ -41,38 +43,12 @@ function fetchInvoiceAndTargetData() {
         .then(response => {
             console.log('Weekly Target Data:', response.data);
             const formattedTarget = Number(response.data.latest_week_target).toLocaleString();
-            document.getElementById('week-target-value').innerText = `$${formattedTarget}`;
+            document.getElementById('week-target').innerText = `$${formattedTarget}`;
         })
-        .catch(error => {
+        .catch(error => { 
             console.error('Error fetching weekly target data:', error);
         });
 }
-
-    function saveWeek() {
-        const invoiceAmount = document.getElementById('invoice-input').value;
-        const targetAmount = document.getElementById('target-input').value;
-
-        console.log('Invoice Amount:', invoiceAmount);  // Add this line
-        console.log('Target Amount:', targetAmount);    // Add this line
-
-        const data = {
-            week_total: invoiceAmount,
-            week_target: targetAmount
-        };
-
-        // Send POST request using Axios
-        axios.post('http://127.0.0.1:8000/api/v1/weekly-invoices', data)
-        .then(response => {
-            console.log('Invoice added successfully:', response.data);
-            closeModal();
-        })
-        .catch(error => {
-            console.error('Error adding invoice:', error.response.data);
-            if (error.response.data.errors) {
-                alert('Error: ' + Object.values(error.response.data.errors).flat().join(', '));
-            }
-        });  
-    }
 
 function saveSum() {
     const invoiceAmount = document.getElementById('add-invoice-input').value;
@@ -103,6 +79,38 @@ function saveSum() {
             alert('Error: ' + Object.values(error.response.data.errors).flat().join(', '));
         }
     });  
+}
+
+function saveWeek() {
+    // Retrieve the input elements for invoice and target values
+    const invoiceInput = document.getElementById('invoice-input');
+    const targetInput = document.getElementById('target-input');
+
+    // Parse the values; if not provided, default to 0
+    const invoiceAmount = invoiceInput ? parseFloat(invoiceInput.value) || 0 : 0;
+    const targetAmount = targetInput ? parseFloat(targetInput.value) || 0 : 0;
+
+    console.log('Invoice Amount:', invoiceAmount);
+    console.log('Target Amount:', targetAmount);
+
+    // Prepare data for the POST request
+    const data = {
+        week_total: invoiceAmount,
+        week_target: targetAmount
+    };
+
+    // Send POST request using Axios
+    axios.post('http://127.0.0.1:8000/api/v1/weekly-invoices', data)
+        .then(response => {
+            console.log('Invoice added successfully:', response.data);
+            closeModal();
+        })
+        .catch(error => {
+            console.error('Error adding invoice:', error.response.data);
+            if (error.response.data.errors) {
+                alert('Error: ' + Object.values(error.response.data.errors).flat().join(', '));
+            }
+        });
 }
 
 // CHART
@@ -172,3 +180,8 @@ function fetchDataAndUpdateChart() {
 document.addEventListener('DOMContentLoaded', function() {
     fetchDataAndUpdateChart();
 });
+
+
+
+
+

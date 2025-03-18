@@ -96,24 +96,24 @@ class UserLoginController extends Controller
             'password' => 'required|min:6',
         ]);
     
-        // Try to find the user (admin in this case)
-        $user = UserLogin::where('email', $request->email)->where('role', 'admin')->first(); // Ensure the user is an admin
+        // Find the user (admin in this case)
+        $user = UserLogin::where('email', $request->email)
+                         ->where('role', 'admin')
+                         ->first();
     
+        // Check if user exists and password is correct
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid email or password'], 401);
         }
     
         // Check if the email has already been verified
         if (!$user->is_verified) {
-            // Check if a verification email has already been sent
-            if ($user->verification_token) {
-                return response()->json(['message' => 'Verification email has already been sent to this email address. Please check your inbox.'], 400);
-            }
+            \Log::info('User not verified: ' . $user->email);
     
-            // If the email hasn't been verified and no verification token is present, send the verification email
-            $this->sendVerificationEmail($user); // Call the function to send the verification email
+            // Always send verification email if the user is not verified
+            $this->sendVerificationEmail($user);
     
-            return response()->json(['message' => 'Verification email sent. Please check your inbox to verify your email address.'], 400);
+            return response()->json(['message' => 'Your email is not verified. A verification email has been sent. Please check your inbox.'], 400);
         }
     
         // Generate a token for API login (if using Laravel Sanctum for authentication)
@@ -126,45 +126,46 @@ class UserLoginController extends Controller
             'user' => $user,
         ]);
     }
+
+    public function sendVerificationEmail($user)
+    {
+        try {
+            // Generate a new verification token
+            $verificationToken = Str::random(60);
     
-    // Function to send verification email
-        public function sendVerificationEmail($user)
-        {
-            try {
-                // Generate a verification token
-                $verificationToken = Str::random(60);
-        
-                // Save the token to the user
-                $user->verification_token = $verificationToken;
-                $user->save();
-        
-                // Log the email sending attempt
-                \Log::info('Sending verification email to: ' . $user->email);
-        
-                // Send the verification email
-                Mail::to($user->email)->send(new VerifyEmail($verificationToken));
-        
-                // Log if the email was sent
-                \Log::info('Verification email sent to: ' . $user->email);
-            } catch (\Exception $e) {
-                \Log::error('Error sending verification email: ' . $e->getMessage());
-            }
+            // Save the token to the user
+            $user->verification_token = $verificationToken;
+            $user->save();
+    
+            \Log::info('Sending verification email to: ' . $user->email);
+    
+            // Generate the correct verification link
+            $verificationLink = route('verifyEmail', ['token' => $verificationToken]);
+    
+            // Send the verification email
+            Mail::to($user->email)->send(new VerifyEmail($verificationLink));
+    
+            \Log::info('Verification email sent to: ' . $user->email);
+        } catch (\Exception $e) {
+            \Log::error('Error sending verification email: ' . $e->getMessage());
         }
-    
+    }
+
+
     public function verifyEmail($token)
     {
-        // Find the user by verification token
+        // Find the user by the verification token
         $user = UserLogin::where('verification_token', $token)->first();
-    
+
         if (!$user) {
-            return redirect('verify/{token}')->with('error', 'Invalid or expired verification token.');
+            return response()->json(['message' => 'Invalid or expired verification token.'], 400);
         }
-    
-        // Update the user's verified_at field and clear the verification token
-        $user->verified_at = now();
-        $user->verification_token = null;  // Clear the token
+
+        // Mark the user as verified
+        $user->is_verified = true;
+        $user->verification_token = null; // Clear the verification token
         $user->save();
-    
-        return redirect('verify/{token}')->with('success', 'Email successfully verified! You can now log in.');
+
+        return response()->json(['message' => 'Email verified successfully.']);
     }
 }

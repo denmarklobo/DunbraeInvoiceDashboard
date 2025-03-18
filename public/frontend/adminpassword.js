@@ -91,7 +91,7 @@ function resendEmail(email) {
 
 // Proceed to login after successful email verification
 function proceedToLogin() {
-    window.location.href = "login.html"; // Redirect to login page
+    window.location.href = "dashboard.html"; // Redirect to login page
 }
 
 // Display alert messages

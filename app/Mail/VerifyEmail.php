@@ -13,6 +13,7 @@ class VerifyEmail extends Mailable
 {
     public $verificationToken;
 
+
     public function __construct($verificationToken)
     {
         $this->verificationToken = $verificationToken;
@@ -20,7 +21,11 @@ class VerifyEmail extends Mailable
 
     public function build()
     {
-        return $this->view('emails.verify')
-                    ->with(['verificationToken' => $this->verificationToken]);
+        return $this->subject('Verify Your Email Address')
+                    ->view('emails.verify')
+                    ->with([
+                        'verificationLink' => route('admin.verify', ['token' => $this->verificationToken]),
+                    ]);
     }
 }
+

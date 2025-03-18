@@ -24,6 +24,6 @@ class UserLogin extends Authenticatable implements MustVerifyEmail
     protected $table = 'userlogin';
 
     // Define the fillable fields to allow mass assignment
-    protected $fillable = ['name', 'position', 'email', 'password', 'role'];
+    protected $fillable = ['name', 'position', 'email', 'password', 'role', 'is_verified',];
 }
 

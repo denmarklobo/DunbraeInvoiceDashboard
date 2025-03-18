@@ -15,13 +15,14 @@ use App\Http\Controllers\HomeController; // Add this line
 // Custom route for email verification
 Route::get('verify/{token}', [UserLoginController::class, 'verifyEmail'])->name('verifyEmail');
 
+
 // Ensure the user is authenticated and their email is verified
 Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
 
-// ✅ FIXED: Ensure Mail facade is used correctly
+// ✅ FIXED: Ensure Mail facade is used cor rectly
 Route::get('/send-test-email', function () {
     Mail::raw('This is a test email.', function ($message) {
-        $message->to('ryanentrolezo@gmail.com')  // Change this to the recipient's email
+        $message->to('denmarklobo1@gmail.com')  // Change this to the recipient's email
                 ->subject('Test Email from Laravel');
     });
 

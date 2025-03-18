@@ -46,7 +46,7 @@
                         <!-- Buttons -->
                         <div class="form-button">
                             <button class="add-edit" onclick="openModal()">Add Invoice</button>
-                            <button class="save" onclick="saveWeek()">Add Changes</button>
+                            <button class="save" onclick="saveWeek()">Save Changes</button>
                         </div>
             
                         <!-- MODAL STRUCTURE -->
@@ -57,7 +57,7 @@
             
                                 <!-- Form for Adding Invoice and Target -->
                                 <div class="input-container inside">
-                                    <label for="invoice-input">Enter Invoice Amount</label>
+                                    <label for="add-invoice-input">Enter Invoice Amount</label>
                                     <input type="number" id="add-invoice-input" required>
                                 </div>
             
@@ -83,12 +83,12 @@
                             <div class="data">
                                 <div class="week-invoice">
                                     <p>Week Invoiced</p>
-                                    <h1 id="week-invoice-value">$0</h1>
+                                    <h1 id="week-invoice">$0</h1>
                                 </div>
             
                                 <div class="week-target">
                                     <p>Week Target</p>
-                                    <h1 id="week-target-value">$0</h1>
+                                    <h1 id="week-target">$0</h1>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                 </div>
             </section>
 
-            <!-- Middle Box -->
+            <!-- MONTH Box -->
             <section class="charts">
                 <div class="invoicing-card">
                     <!-- Form -->
@@ -114,34 +114,26 @@
 
                         <!-- Buttons -->
                         <div class="form-button">
-                            <button class="add-edit" onclick="openModal()">Add Invoice</button>
-                            <button class="save">Save Changes</button>
+                            <button class="add-edit" onclick="openMonthlyModal()">Add Invoice</button>
+                            <button class="save" onclick="saveMonth()">Save Changes</button>
                         </div>
 
                         <!-- MODAL STRUCTURE -->
-                        <div id="invoiceModal" class="modal">
+                        <div id="mothlyModal" class="modal">
                             <div class="modal-content">
-                                <span class="close" onclick="closeModal()">&times;</span>
+                                <span class="close" onclick="closeMonthlyModal()">&times;</span>
                                 <h2 id="modal-title">Invoice & Target</h2>
 
                                 <!-- Form for Adding Invoice and Target -->
-                                <div class="modal-form">
-                                    <div class="input-container">
-                                        <label for="invoice-input">Enter Invoice Amount</label>
-                                        <input type="number" id="invoice-input" required>
-                                    </div>
-
-                                    <div class="input-container">
-                                        <label for="target-input">Enter Target Amount</label>
-                                        <input type="number" id="target-input" required>
-                                    </div>
+                                <div class="">
+                                    <label for="invoice-month-input">Edit Monthly Invoiced</label>
+                                    <input type="number" id="invoice-month-input" required>
                                 </div>
-
-                                <div class="modal-buttons">
-                                    <button class="save" onclick="saveChanges()">Save Changes</button>
-                                </div>
+                                <button class="save" onclick="saveMonthSum()" >Save Invoice</button>
                             </div>
                         </div>
+
+
                         <div class="actual-form">
                             <div class="input-group">
                                 <div class="input-container">
@@ -156,14 +148,14 @@
                             </div>
 
                             <div class="data">
-                                <div class="week-invoice">
+                                <div class="month-invoice">
                                     <p>Month Invoiced</p>
-                                    <h1>$0</h1>
+                                    <h1 id="month-invoice-value">$0</h1>
                                 </div>
-
-                                <div class="week-target">
+                            
+                                <div class="month-target">
                                     <p>Month Target</p>
-                                    <h1>$0</h1>
+                                    <h1 id="month-target-value">$0</h1>
                                 </div>
                             </div>
                         </div>
@@ -178,68 +170,61 @@
                 </div>
             </section>
 
-            <!-- Middle Box -->
+            <!-- YEAR Box -->
             <section class="charts">
                 <div class="invoicing-card">
                     <!-- Form -->
                     <div class="form">
                         <div class="form-title">
-                            <p>Edit Invoice</p>
+                            <p>Edit Yearly Invoice</p>
                         </div>
 
                         <!-- Buttons -->
                         <div class="form-button">
-                            <button class="add-edit" onclick="openModal()">Add Invoice</button>
-                            <button class="save">Save Changes</button>
+                            <button class="add-edit" onclick="openYearlyModal()">Add Invoice</button>
+                            <button class="save" onclick="saveYear()" >Save Changes</button>
                         </div>
 
                         <!-- MODAL STRUCTURE -->
-                        <div id="invoiceModal" class="modal">
+                        <div id="yearlyModal" class="modal">
                             <div class="modal-content">
-                                <span class="close" onclick="closeModal()">&times;</span>
+                                <span class="close" onclick="closeYearlyModal()">&times;</span>
                                 <h2 id="modal-title">Invoice & Target</h2>
 
                                 <!-- Form for Adding Invoice and Target -->
-                                <div class="modal-form">
+                                <div class="input-container inside">
                                     <div class="input-container">
-                                        <label for="invoice-input">Enter Invoice Amount</label>
-                                        <input type="number" id="invoice-input" required>
-                                    </div>
-
-                                    <div class="input-container">
-                                        <label for="target-input">Enter Target Amount</label>
-                                        <input type="number" id="target-input" required>
+                                        <label for="edit-invoiced-year">Enter Invoice Amount</label>
+                                        <input type="number" id="edit-invoiced-year" required>
                                     </div>
                                 </div>
-
-                                <div class="modal-buttons">
-                                    <button class="save" onclick="saveChanges()">Save Changes</button>
-                                </div>
+                                <button class="save" onclick="saveYearSum()" >Save Changes</button>
                             </div>
                         </div>
 
                         <div class="actual-form">
                             <div class="input-group">
                                 <div class="input-container">
-                                    <label for="edit-invoiced-week">Edit Invoiced</label>
-                                    <input type="number" id="edit-invoiced-week" placeholder="" required>
+                                    <label for="invoice-yearly">Edit Invoiced</label>
+                                    <input type="number" id="invoice-yearly" placeholder="" required>
                                 </div>
 
                                 <div class="input-container">
-                                    <label for="edit-target-week">Edit Target</label>
-                                    <input type="number" id="edit-target-week" placeholder="" required>
+                                    <label for="edit-target-year">Edit Target</label>
+                                    <input type="number" id="edit-target-year" placeholder="" required>
                                 </div>
                             </div>
 
-                            <div class="data">
-                                <div class="week-invoice">
-                                    <p>Year Invoiced</p>
-                                    <h1>$0</h1>
-                                </div>
 
-                                <div class="week-target">
+                            <div class="data">
+                                <div class="year-invoice">
+                                    <p>Year Invoiced</p>
+                                    <h1 id="year-invoice">$0</h1>
+                                </div>
+                            
+                                <div class="year-target">
                                     <p>Year Target</p>
-                                    <h1>$0</h1>
+                                    <h1 id="year-target">$0</h1>
                                 </div>
                             </div>
                         </div>
@@ -258,6 +243,8 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0"></script>
     <script src="script.js"></script>
+    <script src="Invoices_month.js"></script>
+    <script src="Invoices_year.js"></script>
     <script src="invoices.js"></script>
     <script src="currenttime.js"></script>
 </body>

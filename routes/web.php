@@ -9,23 +9,24 @@ use App\Http\Controllers\WeeklyInvoiceController;
 use App\Http\Controllers\MonthlyInvoiceController;
 use App\Http\Controllers\YearlyInvoiceController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Mail;
 
 
 // Custom route for email verification
 Route::get('verify/{token}', [UserLoginController::class, 'verifyEmail'])->name('verifyEmail');
 
+
 // Ensure the user is authenticated and their email is verified
 Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
 
 Route::get('/send-test-email', function () {
-    \Illuminate\Support\Facades\Mail::raw('This is a test email.', function ($message) {
-        $message->to('ryanentrolezo@gmail.com')   // Change this to your recipient's email
+    Mail::raw('This is a test email.', function ($message) {
+        $message->to('denmarklobo1@gmail.com')  // Change this to the recipient's email
                 ->subject('Test Email from Laravel');
     });
 
-    return 'Test email sent!';
+    return response()->json(['message' => 'Test email sent!']);
 });
-
 Route::get('/verify/{token}', [UserLoginController::class, 'verifyEmail'])->name('admin.verify');
 
 
