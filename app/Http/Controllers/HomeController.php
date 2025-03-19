@@ -15,7 +15,7 @@ class HomeController extends Controllers
      */
     public function __construct()
     {
-        $this->middleware(['auth', 'verified']); // Ensures only authenticated and verified users can access
+        $this->middleware(['auth', 'verified']); 
     }
 
     /**
@@ -23,6 +23,6 @@ class HomeController extends Controllers
      */
     public function index()
     {
-        return view('home'); // Loads the 'home' view
+        return view('home');
     }
 }

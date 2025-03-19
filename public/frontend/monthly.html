@@ -21,7 +21,11 @@
             <div class="stats">
                 <div class="stat">
                     <p>Amount Invoiced</p>
-                    <h2 class="amount">$541,935</h2>
+                    <h2 class="amount" id="amountInvoiced">$0</h2>
+                </div>
+                <div class="stat">
+                    <p>Week Target</p>
+                    <h2 class="amount" id="weekTarget">$0</h2>
                 </div>
             </div>
 
@@ -29,7 +33,6 @@
                 <canvas id="barChart"></canvas>
             </div>
         </div>
-
         <div class="chart-container">
             <canvas id="progressChart"></canvas>
             <p class="week-text">March <br> <span class="report">Report</span></p>
@@ -45,5 +48,7 @@
     <hr class="footer-line">
 
     <script src="monthly.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>    
 </body>
 </html>

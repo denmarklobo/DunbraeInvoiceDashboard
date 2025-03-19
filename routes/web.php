@@ -21,7 +21,7 @@ Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'veri
 
 Route::get('/send-test-email', function () {
     Mail::raw('This is a test email.', function ($message) {
-        $message->to('denmarklobo1@gmail.com')  // Change this to the recipient's email
+        $message->to('denmarklobo1@gmail.com') 
                 ->subject('Test Email from Laravel');
     });
 
@@ -59,6 +59,7 @@ Route::middleware('api')->prefix('v1')->get('/data', function () {
     Route::post('monthly-invoices/sum', [MonthlyInvoiceController::class, 'sumAmount']);
     Route::post('monthly-invoices', [MonthlyInvoiceController::class, 'store']);
     Route::get('monthly-invoices', [MonthlyInvoiceController::class, 'index']);
+    Route::get('monthly-chart', [MonthlyInvoiceController::class, 'calculateRevenueByMonth']);
     Route::get('monthly-invoices/{id}', [MonthlyInvoiceController::class, 'show']);
     Route::put('monthly-invoices/{id}', [MonthlyInvoiceController::class, 'update']);
     Route::delete('monthly-invoices/{id}', [MonthlyInvoiceController::class, 'destroy']);

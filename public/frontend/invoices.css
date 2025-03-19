@@ -439,6 +439,7 @@ nav button.sidebar-button:hover {
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     height: 300px;
+    width: 300px;
     color: #fff;
     font-size: 12px;
     font-weight: bold;
@@ -451,6 +452,7 @@ nav button.sidebar-button:hover {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    width: 300px;   
     height: 300px;
     font-size: 18px;
     font-weight: bold;

@@ -8,7 +8,7 @@ function closeModal() {
     document.getElementById("invoiceModal").style.display = "none";
 }
 
-// Close modal if user clicks outside the content
+// Close modal if user clicks outside the content       
 window.onclick = function(event) {
     const modal = document.getElementById("invoiceModal");
     if (event.target === modal) {
@@ -59,10 +59,10 @@ function saveSum() {
     }
 
     const data = {
-        week_total: parseFloat(invoiceAmount) // Ensure it's a number
+        week_total: parseFloat(invoiceAmount)
     };
 
-    console.log('Sending data:', data);  // Debugging log to check request payload
+    console.log('Sending data:', data);
 
     axios.post('http://127.0.0.1:8000/api/v1/weekly-invoices/sum', data, {
         headers: {

@@ -1,86 +1,93 @@
-const ctx = document.getElementById('progressChart').getContext('2d');
+document.addEventListener("DOMContentLoaded", async function () {
+    console.log("DOM fully loaded, starting API calls...");
 
-new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-        datasets: [{
-            data: [65, 35], // 65% progress
-            backgroundColor: ['#193F75', '#e0e0e0'],
-            borderWidth: 0,
-        }]
-    },
-    options: {
-        cutout: '70%',
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { display: false }
-        }
-    }
-});
+    // URLs for fetching data
+    const latestUrl = "http://127.0.0.1:8000/api/v1/yearly-latest";
+    const targetUrl = "http://127.0.0.1:8000/api/v1/yearly-target";
+    const chartUrl = "http://127.0.0.1:8000/api/v1/yearly-bargraph";
 
-document.addEventListener("DOMContentLoaded", function() {
-    var ctx = document.getElementById('barChart').getContext('2d');
+    // Show loading message while fetching data
+    document.getElementById("loadingMessage").style.display = "block";
+    document.getElementById("dashboardContent").style.display = "none";
 
-    // Generate years dynamically (2020 - 2025)
-    const startYear = 2020;
-    const endYear = 2025;
-    const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => (startYear + i).toString());
+    try {
+        // Fetch all required data at once
+        const [latestRes, targetRes, chartRes] = await Promise.all([
+            axios.get(latestUrl),
+            axios.get(targetUrl),
+            axios.get(chartUrl)
+        ]);
 
-    var barChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: years, // Update labels to years
-            datasets: [{
-                label: 'Total Invoice for Year',
-                data: Array.from({ length: years.length }, () => Math.floor(Math.random() * 50000) + 10000),
-                backgroundColor: '#193F75'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false, // Ensure it fills the container
-            scales: {
-                x: {
-                    display: true,
-                    ticks: {
-                        maxRotation: 45,
-                        minRotation: 45
-                    }
-                },
-                y: {
-                    beginAtZero: true
-                }
+        const latestData = latestRes.data;
+        const targetData = targetRes.data;
+        const chartData = chartRes.data;
+
+        // Hide loading message and show dashboard content
+        document.getElementById("loadingMessage").style.display = "none";
+        document.getElementById("dashboardContent").style.display = "block";
+
+        /*** UPDATE DOUGHNUT CHART ***/
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [
+                        latestData.latest_year_total || 0,  // Actual progress
+                        (targetData.latest_year_target || 0) - (latestData.latest_year_total || 0) // Remaining to reach target
+                    ],
+                    backgroundColor: ['#193F75', '#e0e0e0'],
+                    borderWidth: 0,
+                }]
             },
-            plugins: {
-                legend: {
-                    display: true
+            options: {
+                cutout: '70%',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
                 }
             }
-        }
-    });
-});
+        });
 
-// Set fiscal year format
-document.addEventListener("DOMContentLoaded", function() {
-    // Get the current date
-    const today = new Date();
-    let currentYear = today.getFullYear();
-    let nextYear = currentYear + 1;
+        /*** UPDATE BAR CHART ***/
+        const yearOrder = [2020, 2021, 2022, 2023, 2024, 2025]; // Correct year order: 2020 to 2025
+        chartData.sort((a, b) => yearOrder.indexOf(a.year) - yearOrder.indexOf(b.year));
 
-    // If before July, use the previous fiscal year
-    let fiscalStartYear = today.getMonth() < 6 ? currentYear - 1 : currentYear;
-    let fiscalEndYear = fiscalStartYear + 1;
+        const labels = yearOrder.map(year => year.toString());
+        const values = yearOrder.map(year => {
+            const found = chartData.find(item => item.year === year);
+            return found ? found.total : 0;  // Use "total" instead of "year_total"
+        });
 
-    // Set fiscal year format ('25 - 26')
-    const fiscalYearText = `'${String(fiscalStartYear).slice(-2)} - ${String(fiscalEndYear).slice(-2)}'`;
+        const ctxBar = document.getElementById("barChart").getContext("2d");
+        new Chart(ctxBar, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Revenue",
+                    data: values,
+                    backgroundColor: "#193F75",
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
-    // Update elements dynamically
-    document.querySelector(".highlight").textContent = fiscalYearText;
-    document.querySelector(".overview").textContent = `July ${fiscalStartYear} - June ${fiscalEndYear}`;
-    
-    // Update all YEAR elements
-    document.querySelectorAll(".big-number, .week-text").forEach(el => {
-        el.innerHTML = el.innerHTML.replace(/\d{4}/g, currentYear);
-    });
+        /*** UPDATE TEXT DATA ***/
+        document.getElementById("amountInvoiced").textContent = `$${parseFloat(latestData.latest_year_total || 0).toLocaleString()}`;
+        document.getElementById("yearTarget").textContent = `$${parseFloat(targetData.latest_year_target || 0).toLocaleString()}`;
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        document.getElementById("loadingMessage").textContent = "Failed to load data. Please try again later.";
+    }
 });

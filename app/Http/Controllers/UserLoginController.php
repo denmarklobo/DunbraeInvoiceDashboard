@@ -37,15 +37,12 @@ class UserLoginController extends Controller
             'role' => 'required|in:user,admin',
         ]);
     
-        // Hash the password before storing
         $validated['password'] = Hash::make($validated['password']);
     
         try {
-            // Create a new user record in the database
             $user = UserLogin::create($validated);
-            return response()->json($user, 201); // Return success response with created user
+            return response()->json($user, 201);
         } catch (\Exception $e) {
-            // Return error response if something goes wrong
             return response()->json([
                 'message' => 'Error creating user',
                 'error' => $e->getMessage()
@@ -88,61 +85,52 @@ class UserLoginController extends Controller
         $user->delete();
         return response()->json(['message' => 'User deleted successfully']);
     }
+
+    // Admin Login with sending of the email Verifications
     public function adminLogin(Request $request)
     {
-        // Validate the input
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
     
-        // Find the user (admin in this case)
         $user = UserLogin::where('email', $request->email)
                          ->where('role', 'admin')
                          ->first();
     
-        // Check if user exists and password is correct
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid email or password'], 401);
         }
     
-        // Check if the email has already been verified
         if (!$user->is_verified) {
             \Log::info('User not verified: ' . $user->email);
     
-            // Always send verification email if the user is not verified
             $this->sendVerificationEmail($user);
     
             return response()->json(['message' => 'Your email is not verified. A verification email has been sent. Please check your inbox.'], 400);
         }
     
-        // Generate a token for API login (if using Laravel Sanctum for authentication)
         $token = $user->createToken('AdminToken')->plainTextToken;
     
-        // Return the response with the token and user data
         return response()->json([
             'message' => 'Login successful',
             'token' => $token,
             'user' => $user,
         ]);
     }
-
+    // Sending of the Verification called in the login
     public function sendVerificationEmail($user)
     {
         try {
-            // Generate a new verification token
             $verificationToken = Str::random(60);
-    
-            // Save the token to the user
+
             $user->verification_token = $verificationToken;
             $user->save();
     
             \Log::info('Sending verification email to: ' . $user->email);
     
-            // Generate the correct verification link
             $verificationLink = route('verifyEmail', ['token' => $verificationToken]);
-    
-            // Send the verification email
+
             Mail::to($user->email)->send(new VerifyEmail($verificationLink));
     
             \Log::info('Verification email sent to: ' . $user->email);
@@ -151,19 +139,17 @@ class UserLoginController extends Controller
         }
     }
 
-
+    // Gives the token for the user
     public function verifyEmail($token)
     {
-        // Find the user by the verification token
         $user = UserLogin::where('verification_token', $token)->first();
 
         if (!$user) {
             return response()->json(['message' => 'Invalid or expired verification token.'], 400);
         }
 
-        // Mark the user as verified
         $user->is_verified = true;
-        $user->verification_token = null; // Clear the verification token
+        $user->verification_token = null;
         $user->save();
 
         return response()->json(['message' => 'Email verified successfully.']);

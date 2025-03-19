@@ -9,7 +9,7 @@ use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\WeeklyInvoiceController;
 use App\Http\Controllers\MonthlyInvoiceController;
 use App\Http\Controllers\YearlyInvoiceController;
-use App\Http\Controllers\HomeController; // Add this line
+use App\Http\Controllers\HomeController;
 
 
 // Custom route for email verification
@@ -19,10 +19,10 @@ Route::get('verify/{token}', [UserLoginController::class, 'verifyEmail'])->name(
 // Ensure the user is authenticated and their email is verified
 Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
 
-// ✅ FIXED: Ensure Mail facade is used cor rectly
+//Ensure Mail facade is used cor rectly
 Route::get('/send-test-email', function () {
     Mail::raw('This is a test email.', function ($message) {
-        $message->to('denmarklobo1@gmail.com')  // Change this to the recipient's email
+        $message->to('denmarklobo1@gmail.com') 
                 ->subject('Test Email from Laravel');
     });
 
@@ -36,12 +36,14 @@ Route::post('/admin/resend-verification', [UserLoginController::class, 'sendVeri
 Route::get('/admin/verify-email/{token}', [UserLoginController::class, 'verifyEmail']);
 
 Route::prefix('v1')->middleware('api')->group(function () {
+
     // Admin Login Route
     Route::post('admin/login', [UserLoginController::class, 'adminLogin']);
 
     // YEARLY INVOICES
     Route::post('yearly-invoices/sum', [YearlyInvoiceController::class, 'sumAmount']);
     Route::get('yearly-latest', [YearlyInvoiceController::class, 'getLatestYearTotal']);
+    Route::get('yearly-bargraph', [YearlyInvoiceController::class, 'dashboardYear']);
     Route::get('yearly-target', [YearlyInvoiceController::class, 'getLatestYearTarget']);
     Route::post('yearly-invoices', [YearlyInvoiceController::class, 'store']);
     Route::get('yearly-invoices', [YearlyInvoiceController::class, 'index']);
@@ -53,6 +55,7 @@ Route::prefix('v1')->middleware('api')->group(function () {
     Route::post('monthly-invoices/sum', [MonthlyInvoiceController::class, 'sumAmount']);
     Route::get('monthly-latest', [MonthlyInvoiceController::class, 'getLatestMonthTotal']);
     Route::get('monthly-target', [MonthlyInvoiceController::class, 'getLatestMonthTarget']);
+    Route::get('monthly-chart', [MonthlyInvoiceController::class, 'calculateRevenueByMonth']);
     Route::post('monthly-invoices', [MonthlyInvoiceController::class, 'store']);
     Route::get('monthly-invoices', [MonthlyInvoiceController::class, 'index']);
     Route::get('monthly-invoices/{id}', [MonthlyInvoiceController::class, 'show']);
@@ -68,10 +71,6 @@ Route::prefix('v1')->middleware('api')->group(function () {
     Route::get('weekly-invoices/{id}', [WeeklyInvoiceController::class, 'show']);
     Route::put('weekly-invoices/{id}', [WeeklyInvoiceController::class, 'update']);
     Route::delete('weekly-invoices/{id}', [WeeklyInvoiceController::class, 'destroy']);
-
-    // Excel Import Routes
-    Route::get('import-excel', [ExcelImportController::class, 'showForm']);
-    Route::post('import-excel', [ExcelImportController::class, 'importExcelAndSum']);
 
     // User Login and Registration Routes
     Route::apiResource('userlogin', UserLoginController::class);

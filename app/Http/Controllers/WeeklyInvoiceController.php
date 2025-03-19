@@ -12,6 +12,8 @@ class WeeklyInvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    // Show all the weekly invoices
     public function index()
     {
         $weeklyInvoices = WeeklyInvoice::all();
@@ -20,15 +22,12 @@ class WeeklyInvoiceController extends Controller
 
         public function getLatestWeekTotal()
     {
-        // Get the most recent weekly invoice (latest record based on created_at)
         $latestInvoice = WeeklyInvoice::latest('created_at')->first();
 
-        // If no invoice is found, return an error message
         if (!$latestInvoice) {
             return response()->json(['message' => 'No weekly invoices found'], 404);
         }
 
-        // Return the latest week_total
         return response()->json([
             'latest_week_total' => $latestInvoice->week_total,
         ]);
@@ -36,15 +35,12 @@ class WeeklyInvoiceController extends Controller
     
         public function getLatestWeekTarget()
     {
-        // Get the most recent weekly invoice (latest record based on created_at)
         $latestInvoice = WeeklyInvoice::latest('created_at')->first();
 
-        // If no invoice is found, return an error message
         if (!$latestInvoice) {
             return response()->json(['message' => 'No weekly invoices found'], 404);
         }
 
-        // Return the latest week_target
         return response()->json([
             'latest_week_target' => $latestInvoice->week_target,
         ]);
@@ -58,92 +54,82 @@ class WeeklyInvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    // Add week invoice
      public function sumWeekTotal(Request $request)
      {
-         // Validate the incoming request for week_total
          $request->validate([
              'week_total' => 'required|numeric',
          ]);
-     
-         // Get the most recent weekly invoice (latest record based on created_at)
+
          $latestInvoice = WeeklyInvoice::latest('created_at')->first();
-     
-         // If no invoice is found, return an error message
+
          if (!$latestInvoice) {
              return response()->json(['message' => 'No weekly invoices found'], 404);
          }
-     
-         // Sum the week_total input with the latest invoice's week_total
+
          $newWeekTotal = $latestInvoice->week_total + $request->week_total;
-     
-         // Update the latest invoice with the new summed amount
+ 
          $latestInvoice->update([
              'week_total' => $newWeekTotal
          ]);
      
-         // Return the updated invoice data along with a success message
          return response()->json([
              'message' => 'Week total updated successfully',
              'new_week_total' => $newWeekTotal,
-             'invoice' => $latestInvoice // Optionally include the updated invoice
+             'invoice' => $latestInvoice
          ]);
      }
-
-public function store(Request $request)
-{
-    // Validate the incoming data
-    $request->validate([
-        'week_total' => 'required|numeric',
-        'week_target' => 'required|numeric',
-    ]);
-
-    // Create a new weekly invoice with the given data
-    $invoice = WeeklyInvoice::create([
-        'week_total' => $request->week_total,
-        'week_target' => $request->week_target,
-    ]);
-
-    // Return the created invoice as a response
-    return response()->json($invoice, 201);
-}
-
-    public function show($id)
-    {
-        $weeklyInvoice = WeeklyInvoice::find($id);
-
-        if (!$weeklyInvoice) {
-            return response()->json(['message' => 'Invoice not found'], 404);
-        }
-
-        return response()->json($weeklyInvoice);
-    }
-
-    /**
-     * Update the specified weekly invoice in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    //  Store Weekly Invoice
+    public function store(Request $request)
     {
         $request->validate([
-            'edit_id' => 'required|integer',
-            'user_id' => 'required|integer',
             'week_total' => 'required|numeric',
             'week_target' => 'required|numeric',
         ]);
+        $invoice = WeeklyInvoice::create([
+            'week_total' => $request->week_total,
+            'week_target' => $request->week_target,
+        ]);
+        return response()->json($invoice, 201);
+    }
 
-        $weeklyInvoice = WeeklyInvoice::find($id);
+        public function show($id)
+        {
+            $weeklyInvoice = WeeklyInvoice::find($id);
 
-        if (!$weeklyInvoice) {
-            return response()->json(['message' => 'Invoice not found'], 404);
+            if (!$weeklyInvoice) {
+                return response()->json(['message' => 'Invoice not found'], 404);
+            }
+
+            return response()->json($weeklyInvoice);
         }
 
-        $weeklyInvoice->update($request->all());
+        /**
+         * Update the specified weekly invoice in storage.
+         *
+         * @param \Illuminate\Http\Request $request
+         * @param int $id
+         * @return \Illuminate\Http\Response
+         */
+        public function update(Request $request, $id)
+        {
+            $request->validate([
+                'edit_id' => 'required|integer',
+                'user_id' => 'required|integer',
+                'week_total' => 'required|numeric',
+                'week_target' => 'required|numeric',
+            ]);
 
-        return response()->json($weeklyInvoice);
-    }
+            $weeklyInvoice = WeeklyInvoice::find($id);
+
+            if (!$weeklyInvoice) {
+                return response()->json(['message' => 'Invoice not found'], 404);
+            }
+
+            $weeklyInvoice->update($request->all());
+
+            return response()->json($weeklyInvoice);
+        }
 
     /**
      * Remove the specified weekly invoice from storage.

@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Attach event listeners to buttons
     document.querySelector('.save-week').addEventListener('click', saveWeek);
-    document.querySelector('.save-year').addEventListener('click', saveYearlyChanges);
+    document.querySelector('.save-year').addEventListener('click', saveYear);
 });
 
 // Fetch Weekly and Yearly Data
@@ -105,19 +105,24 @@ function saveYearSum() {
 }
 
 // Save Yearly Changes
-function saveYearlyChanges() {
-    const invoiceAmount = document.getElementById('edit-invoiced-year').value;
+function saveYear() {
+    const invoiceAmount = document.getElementById('invoice-yearly').value; // Corrected id
     const targetAmount = document.getElementById('edit-target-year').value;
 
     console.log('Invoice Amount:', invoiceAmount);
     console.log('Target Amount:', targetAmount);
+
+    if (!invoiceAmount || !targetAmount) {
+        alert('Please provide both the invoice amount and target amount.');
+        return;
+    }
 
     const data = {
         year_total: invoiceAmount,
         year_target: targetAmount
     };
 
-    axios.post('http://127.0.0.1:8000/api/v1/yearly-invoice', data)
+    axios.post('http://127.0.0.1:8000/api/v1/yearly-invoices', data)
         .then(response => {
             console.log('Yearly invoice added successfully:', response.data);
             closeYearlyModal();
@@ -132,16 +137,16 @@ function saveYearlyChanges() {
 
 // Create Yearly Doughnut Chart
 function createYearlyDoughnutChart(yearTotal, yearTarget) {
-    const ctx = document.getElementById('salesChart').getContext('2d');
+    const ctx = document.getElementById('salesChartYear').getContext('2d');
     console.log('Creating chart with data:', yearTotal, yearTarget);
 
-    if (window.salesChart instanceof Chart) {
-        window.salesChart.destroy();
+    if (window.salesChartYear instanceof Chart) {
+        window.salesChartYear.destroy();
     }
 
     const remaining = Math.max(yearTarget - yearTotal, 0);
 
-    window.salesChart = new Chart(ctx, {
+    window.salesChartYear = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: ['Achieved', 'Remaining'],
