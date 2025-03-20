@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const contentArea = document.getElementById("content-area");
     const dashboardBtn = document.getElementById("dashboardBtn");
-    const invoicesBtn = document.getElementById("invoices-Btn");
+    const invoicesBtn = document.getElementById("invoicesBtn"); // Fixed ID reference
     const logoutBtn = document.querySelector(".logout");
 
     // Function to load pages dynamically and reattach scripts

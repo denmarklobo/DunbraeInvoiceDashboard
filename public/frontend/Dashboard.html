@@ -15,27 +15,40 @@
 <body>
     <div class="dashboard-container">
 
+        <!-- NAVBAR -->
+        <header class="header">
+            <div class="with-currenttime">
+                <h1>Dashboard</h1>
+                <div id="current-time"></div>
+            </div>
+            <div class="profile">
+                <div class="user-profile-image">
+                    <img src="assets/Profile-icon.png" alt="">
+                </div>
+                <div class="user-profile-info">
+                    <p class="user-name" id="display-name"></p>
+                    <p class="position" id="display-position"></p>
+                </div>
+                </p>
+            </div>
+        </header>
+
+        <aside class="sidebar">
+            <img src="assets/Dunbrae-Subic.png" alt="Dunbrae-Subic.png">
+            <nav>
+                <ul>
+                    <li><button id="dashboardBtn" class="active sidebar-button"><i class="fa-solid fa-house"></i>
+                            Dashboard</button></li>
+                    <li><button id="invoicesBtn" class="sidebar-button"><i class="fa-solid fa-file-invoice"></i>
+                            Invoices</button></li>
+                </ul>
+                <div class="logout-container">
+                    <button class="logout"><i class="fa-solid fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </nav>
+        </aside>
 
         <main class="content">
-            <!-- NAVBAR -->
-            <header class="header">
-                <div class="with-currenttime">
-                    <h1>Dashboard</h1>
-                    <div id="current-time"></div>
-                </div>
-                <div class="profile">
-                    <div class="user-profile-image">
-                        <img src="assets/Profile-icon.png" alt="">
-                    </div>
-                    <div class="user-profile-info">
-                        <p class="user-name" id="display-name"></p>
-                        <p class="position" id="display-position"></p>
-                    </div>
-                    </p>
-                </div>
-            </header>
-
-
             <!-- Upper Box -->
             <section class="stats">
                 <div class="card">
@@ -132,9 +145,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
     <script src="graphs.js"></script>
+    <script src="currenttime.js"></script>
     <script>
         function initializeGraphs() {
-            // Reinitialize your charts here (e.g., Chart.js, ApexCharts, etc.)
             console.log("Charts are reinitialized");
         }
     </script>

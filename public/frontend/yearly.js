@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         /*** UPDATE BAR CHART ***/
-        const yearOrder = [2020, 2021, 2022, 2023, 2024, 2025]; // Correct year order: 2020 to 2025
+        const yearOrder = [2024, 2025]; // Correct year order: 2020 to 2025
         chartData.sort((a, b) => yearOrder.indexOf(a.year) - yearOrder.indexOf(b.year));
 
         const labels = yearOrder.map(year => year.toString());

@@ -15,25 +15,44 @@
 <body>
     <div class="dashboard-container">
 
+        <!-- NAVBAR -->
+        <header class="header">
+            <div class="with-currenttime">
+                <h1>Invoices</h1>
+                <div id="current-time"></div>
+            </div>
+            <div class="profile">
+                <div class="user-profile-image">
+                    <img src="assets/Profile-icon.png" alt="">
+                </div>
+                <div class="user-profile-info">
+                    <p class="user-name" id="display-name"></p>
+                    <p class="position" id="display-position"></p>
+                </div>
+                </p>
+            </div>
+        </header>
+
+        <aside class="sidebar">
+            <img src="assets/Dunbrae-Subic.png" alt="Dunbrae-Subic.png">
+            <nav>
+                <ul>
+                    <li><button id="dashboardBtn" class="sidebar-button"><i class="fa-solid fa-house"></i>
+                            Dashboard</button></li>
+                    <li><button id="invoicesBtn" class="active sidebar-button"><i class="fa-solid fa-file-invoice"></i>
+                            Invoices</button></li>
+                </ul>
+                <div class="logout-container">
+                    <button class="logout">
+                        <i class="fa-solid fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </nav>
+        </aside>
+
 
         <main class="content">
-            <!-- NAVBAR -->
-            <header class="header">
-                <div class="with-currenttime">
-                    <h1>Invoices</h1>
-                    <div id="current-time"></div>
-                </div>
-                <div class="profile">
-                    <div class="user-profile-image">
-                        <img src="assets/Profile-icon.png" alt="">
-                    </div>
-                    <div class="user-profile-info">
-                        <p class="user-name">Ryan Joshua Bueno</p>
-                        <p class="position">IT Intern</p>
-                    </div>
-                    </p>
-                </div>
-            </header>
+
 
             <section class="charts">
                 <div class="invoicing-card">
@@ -42,50 +61,50 @@
                         <div class="form-title">
                             <p>Edit Invoice</p>
                         </div>
-            
+
                         <!-- Buttons -->
                         <div class="form-button">
                             <button class="add-edit" onclick="openModal()">Add Invoice</button>
                             <button class="save" onclick="saveWeek()">Save Changes</button>
                         </div>
-            
-                        <!-- MODAL STRUCTURE -->
+
+                        <!-- WEEKLY MODAL -->
                         <div id="invoiceModal" class="modal">
                             <div class="modal-content">
                                 <span class="close" onclick="closeModal()">&times;</span>
                                 <h2 id="modal-title">Invoice & Target</h2>
-            
+
                                 <!-- Form for Adding Invoice and Target -->
                                 <div class="input-container inside">
                                     <label for="add-invoice-input">Enter Invoice Amount</label>
                                     <input type="number" id="add-invoice-input" required>
                                 </div>
-            
+
                                 <div class="modal-buttons">
                                     <button class="save" onclick="saveSum()">Add Invoice</button>
                                 </div>
                             </div>
                         </div>
-            
+
                         <div class="actual-form">
                             <div class="input-group">
                                 <div class="input-container">
                                     <label for="edit-invoiced-week">Edit Invoiced</label>
                                     <input type="number" id="invoice-input" placeholder="" required>
                                 </div>
-            
+
                                 <div class="input-container">
                                     <label for="edit-target-week">Edit Target</label>
                                     <input type="number" id="target-input" placeholder="" required>
                                 </div>
                             </div>
-            
+
                             <div class="data">
                                 <div class="week-invoice">
                                     <p>Week Invoiced</p>
                                     <h1 id="week-invoice">$0</h1>
                                 </div>
-            
+
                                 <div class="week-target">
                                     <p>Week Target</p>
                                     <h1 id="week-target">$0</h1>
@@ -94,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="circle-graph">
                     <div class="chart-title">
                         <p>Sales Distribution</p>
@@ -129,7 +148,7 @@
                                     <label for="invoice-month-input">Edit Monthly Invoiced</label>
                                     <input type="number" id="invoice-month-input" required>
                                 </div>
-                                <button class="save" onclick="saveMonthSum()" >Save Invoice</button>
+                                <button class="save" onclick="saveMonthSum()">Save Invoice</button>
                             </div>
                         </div>
 
@@ -152,7 +171,7 @@
                                     <p>Month Invoiced</p>
                                     <h1 id="month-invoice-value">$0</h1>
                                 </div>
-                            
+
                                 <div class="month-target">
                                     <p>Month Target</p>
                                     <h1 id="month-target-value">$0</h1>
@@ -182,7 +201,7 @@
                         <!-- Buttons -->
                         <div class="form-button">
                             <button class="add-edit" onclick="openYearlyModal()">Add Invoice</button>
-                            <button class="save" onclick="saveYear()" >Save Changes</button>
+                            <button class="save" onclick="saveYear()">Save Changes</button>
                         </div>
 
                         <!-- MODAL STRUCTURE -->
@@ -197,7 +216,7 @@
                                         <input type="number" id="edit-invoiced-year" required>
                                     </div>
                                 </div>
-                                <button class="save" onclick="saveYearSum()" >Save Changes</button>
+                                <button class="save" onclick="saveYearSum()">Save Changes</button>
                             </div>
                         </div>
 
@@ -207,13 +226,13 @@
                                     <label for="invoice-yearly">Edit Invoiced</label>
                                     <input type="number" id="invoice-yearly" placeholder="" required>
                                 </div>
-                        
+
                                 <div class="input-container">
                                     <label for="edit-target-year">Edit Target</label>
                                     <input type="number" id="edit-target-year" placeholder="" required>
                                 </div>
                             </div>
-                        
+
 
 
                             <div class="data">
@@ -221,7 +240,7 @@
                                     <p>Year Invoiced</p>
                                     <h1 id="year-invoice">$0</h1>
                                 </div>
-                            
+
                                 <div class="year-target">
                                     <p>Year Target</p>
                                     <h1 id="year-target">$0</h1>

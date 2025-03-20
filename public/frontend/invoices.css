@@ -3,24 +3,30 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-direction: column;
     height: 100vh;
     background: #EDF6FD;
 }
 
 .dashboard-container {
     display: flex;
+    flex-direction: row;
     width: 100%;
 }
 
 /* Sidebar*/
-
 .sidebar {
     width: 250px;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    margin-top: 60px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
 }
+
 
 /* navbar */
 nav ul {
@@ -68,10 +74,15 @@ nav button.sidebar-button:hover {
 
 /* Headers */
 .header {
+    position: fixed;
+    top: 0;
+    left: 270px;
+    width: calc(100% - 320px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    padding: 15px 20px;
+    z-index: 999;
 }
 
 .header h1 {
@@ -112,6 +123,8 @@ nav button.sidebar-button:hover {
 
 .content {
     flex: 1;
+    margin-left: 270px;
+    margin-top: 70px;
     padding: 20px;
 }
 
